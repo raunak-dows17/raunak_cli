@@ -9,13 +9,21 @@ A blazing-fast CLI to bootstrap professional clean architecture projects in Node
     - Typed env config
     - Middleware for custom API response
     - Project structure: `core/`, `config/`, `root/`
-- `raunak create-feature <name>`:
-    - Creates a feature folder with domain, application, interface, and infrastructure layers
+- `raunak generate:feature <name>`:
+    - Creates a feature folder with domain, application and data layers
     - Generates starter files (e.g. `auth.entity.ts`, `auth.controller.ts`)
+- `raunak generate:model <name>`:
+  - Generates:
+    - Entity (Domain Layer)
+    - Mongoose model (Infrastructure Layer)
+    - Optional Zod validator
+  - Feature-aware structure: generate in `core/` or `features/<name>/`
 
 ## 🧪 Usage
 
 ```bash
-npx raunak init
-npx raunak create-feature auth
+npx raunak init --with-validator
 
+npx raunak generate feature auth
+
+npx raunak generate:model user --fields "name:string, username:string:required, email:string:unique, password:string, role:string" --with-validator

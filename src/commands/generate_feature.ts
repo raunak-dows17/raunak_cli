@@ -1,20 +1,22 @@
 import fs, {ensureDir} from 'fs-extra';
 import path from "node:path";
 import chalk from "chalk";
+import StringsUtils from "../utils/strings.utils";
 
-export async function createFeature(featureName: string) {
+export async function generateFeature(featureName: string) {
+    const stringUtils = new StringsUtils();
+
     const basePath = path.join(process.cwd(), "src", "features", featureName);
 
     const folders = [
-      'domain/entities',
-      'domain/repositories',
-        'domain/value_objects',
-        'application/usecases',
-        'application/dto',
-        'interface/controllers',
-        'interface/routes',
-        'interface/validators',
-        'infrastructure/repositories/',
+        'domain/entities',
+        'domain/repositories',
+        'domain/usecases',
+        'data/repositories',
+        'data/models',
+        'application/controllers',
+        'application/routes',
+        'application/validators'
     ];
 
     try {
@@ -28,7 +30,7 @@ export async function createFeature(featureName: string) {
             const fileName = `${featureName}.${leafName}.ts`;
             const filePath = path.join(folderPath, fileName);
 
-            const content = `// ${capitalize(featureName)} ${capitalize(leafName)}\n\nexport class ${capitalize(featureName)}${capitalize(camelCase(leafName))} {}\n`;
+            const content = `// ${stringUtils.capitalize(featureName)} ${stringUtils.capitalize(leafName)}\n\nexport default class ${stringUtils.capitalize(featureName)}${stringUtils.capitalize(stringUtils.camelCase(leafName))} {}\n`;
             await fs.outputFile(filePath, content);
         }
 
@@ -36,15 +38,4 @@ export async function createFeature(featureName: string) {
     } catch (e) {
         console.error(chalk.red(`❌ Error creating ${featureName} feature: ${e}`));
     }
-}
-
-function capitalize(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function camelCase(str: string): string {
-    return str
-        .split('-')
-        .map((word) => capitalize(word))
-        .join('');
 }
