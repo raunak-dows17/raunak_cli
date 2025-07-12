@@ -62,7 +62,7 @@ function bootstrap() {
   const server = new Server(app);
 
   const port = envConfig.port;
-  connectDB(envConfig.dbURI ?? 'mongodb://localhost:27017/synup');
+  connectDB(envConfig.dbURI ?? 'mongodb://localhost:27017/db_name');
 
   ${includeSocket ? "socketApp(server)" : ""};
 
