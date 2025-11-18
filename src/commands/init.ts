@@ -19,8 +19,8 @@ export async function initProject(withValidator: boolean = false) {
 
     console.log(chalk.yellow('📦 Installing dependencies...'));
 
-    await run('npm install express cors dotenv mongoose jsonwebtoken');
-    await run('npm install --save-dev tsx typescript @types/express @types/node');
+    await run('npm install express cors dotenv mongoose jsonwebtoken bcrypt multer raw_lib socket.io uuid zod');
+    await run('npm install --save-dev tsx typescript @types/express @types/node @types/bcrypt @types/jsonwebtoken @types/multer @types/uuid');
 
     if (withValidator) {
         console.log(chalk.blue("🧩 Adding Zod for validators..."));
@@ -40,8 +40,16 @@ export async function initProject(withValidator: boolean = false) {
 
     await fs.writeFile('tsconfig.json', InitTemplate.tsConfig);
     await fs.outputFile(path.join(base, 'config/env.config.ts'), InitTemplate.envConfig);
+    await fs.outputFile(path.join(base, 'config/multer.config.ts'), InitTemplate.mediaConfig);
     await fs.outputFile(path.join(base, 'shared/infrastructure/database/connection.ts'), InitTemplate.dbConnection);
     await fs.outputFile(path.join(base, 'shared/infrastructure/middleware/api_response.ts'), InitTemplate.apiResponse);
+    await fs.outputFile(path.join(base, 'shared/infrastructure/middleware/media.middleware.ts'), InitTemplate.mediaSaveMiddleware);
+    await fs.outputFile(path.join(base, 'shared/media/domain/entities/media.entity.ts'), InitTemplate.mediaEntity);
+    await fs.outputFile(path.join(base, 'shared/media/domain/repositories/media.repository.ts'), InitTemplate.mediaRepository);
+    await fs.outputFile(path.join(base, 'shared/media/domain/usecases/mediaOperation.usecases.ts'), InitTemplate.mediaOperationUsecases);
+    await fs.outputFile(path.join(base, 'shared/media/data/models/media.model.ts'), InitTemplate.mediaModel);
+    await fs.outputFile(path.join(base, 'shared/media/data/services/media.services.ts'), InitTemplate.mediaServices);
+    await fs.outputFile(path.join(base, 'shared/media/application/controllers/media.controllers.ts'), InitTemplate.mediaControllers);
     await fs.outputFile(path.join(base, 'infrastructure/web/http.ts'), InitTemplate.appFile);
     await fs.outputFile(path.join(base, 'server.ts'), InitTemplate.serverFile(socket));
     await fs.outputFile('.env', InitTemplate.defaultEnv);

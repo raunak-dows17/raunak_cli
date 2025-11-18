@@ -7,7 +7,10 @@ A blazing-fast CLI to bootstrap professional clean architecture projects in Node
 - `raunak init`: Bootstraps a production-grade backend with:
     - Express, Mongoose, JWT, Dotenv, etc.
     - Typed env config
+    - Multer Config for media upload
     - Middleware for custom API response
+    - Media handling for any Entity handling both single and multiple media upload
+    - Seamless RawLib Integration
     - Project structure: `core/`, `config/`, `root/`
 - `raunak generate:feature <name>`:
     - Creates a feature folder with domain, application and data layers
